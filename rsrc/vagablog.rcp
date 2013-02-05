@@ -1,0 +1,427 @@
+// arch-tag: vagablog resource definitions
+//
+// Vagablog - Palm based Blog utility
+//
+// Copyright (C) 2003, 2004, 2005 Mike Rowehl <miker@bitsplitter.net>
+//
+// ***** BEGIN LICENSE BLOCK *****
+// Version: MPL 1.1
+//
+// The contents of this file are subject to the Mozilla Public License Version
+// 1.1 (the "License"); you may not use this file except in compliance with
+// the License. You may obtain a copy of the License at
+// http://www.mozilla.org/MPL/
+//
+// Software distributed under the License is distributed on an "AS IS" basis,
+// WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+// for the specific language governing rights and limitations under the
+// License.
+//
+// The Original Code is PalmHTTP.
+//
+// The Initial Developer of the Original Code is
+// Mike Rowehl <miker@bitsplitter.net>
+// Portions created by the Initial Developer are Copyright (C) 2003
+// the Initial Developer. All Rights Reserved.
+//
+// Contributor(s):
+// Mike Rowehl <miker@bitsplitter.net>
+//
+// ***** END LICENSE BLOCK *****
+//
+
+#include "resource.h"
+
+APPLICATIONICONNAME ID 1000 "Vagablog"
+VERSION ID 1000 "2.0"
+
+ICON      "vagablog-large.bmp"
+SMALLICON "smic1bpp.bmp"
+
+FORM ID MainForm AT (0 0 160 160)
+NOFRAME
+MENUID MainMenu
+BEGIN
+  TITLE "Vagablog"
+  LABEL "Title: " AUTOID AT (0 16) FONT 0
+  FIELD ID BlogTitleFld AT (25 16 135 AUTO) FONT 0 UNDERLINED MAXCHARS 128
+      AUTOSHIFT MULTIPLELINES
+  LABEL "Cat: " AUTOID AT (0 PREVBOTTOM) FONT 0
+  FIELD ID BlogCategoryFld AT (25 PREVTOP 135 AUTO) FONT 0 UNDERLINED
+      MAXCHARS 128 AUTOSHIFT MULTIPLELINES
+  FIELD ID BlogEntryFld AT (0 PREVBOTTOM 153 101) FONT 0 UNDERLINED
+      MULTIPLELINES MAXCHARS 4000 HASSCROLLBAR AUTOSHIFT
+  SCROLLBAR ID BlogEntryScrl AT (153 PREVTOP 7 PREVHEIGHT) VALUE 0 MIN 0
+      MAX 10 PAGESIZE 10
+
+  BUTTON "Post" ID PostBtn AT (1 147 AUTO AUTO) FONT 0
+
+  GRAFFITISTATEINDICATOR AT (135 149)
+END
+
+FORM ID MinimalForm AT (0 0 160 160)
+NOFRAME
+MENUID MainMenu
+BEGIN
+  TITLE "Vagablog"
+
+  FIELD ID BlogEntryFld AT (0 16 153 125) FONT 0 UNDERLINED
+      MULTIPLELINES MAXCHARS 4000 HASSCROLLBAR AUTOSHIFT
+  SCROLLBAR ID BlogEntryScrl AT (153 PREVTOP 7 PREVHEIGHT) VALUE 0 MIN 0
+      MAX 10 PAGESIZE 11
+
+  BUTTON "Post" ID PostBtn AT (1 147 AUTO AUTO) FONT 0
+
+  GRAFFITISTATEINDICATOR AT (135 149)
+END
+
+FORM ID CreateLinkForm AT (2 2 156 72)
+MODAL
+DEFAULTBTNID LinkCancelBtn
+HELPID CreateLinkHlp
+MENUID LinkMenu
+BEGIN
+  TITLE "Create Link"
+
+  LABEL "Text:" AUTOID AT (4 16) FONT 0
+  FIELD ID LinkText AT (30 16 122 11)
+    FONT 0 UNDERLINED MAXCHARS 63 MULTIPLELINES
+  LABEL "URL:" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID LinkURL AT (30 PREVTOP 122 22)
+    FONT 0 UNDERLINED MAXCHARS 256 MULTIPLELINES
+
+  BUTTON "OK" ID LinkOKBtn AT (6 PREVBOTTOM+6 AUTO AUTO) FONT 0
+  BUTTON "Cancel" ID LinkCancelBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO) FONT 0
+  GRAFFITISTATEINDICATOR AT (PREVRIGHT+6 PREVTOP)
+END
+
+STRING CreateLinkHlp "The Text field is what displays in the page, the URL is the target for the link."
+
+MENU ID LinkMenu
+BEGIN
+  PULLDOWN "Action"
+  BEGIN
+    MENUITEM "OK" LinkOKMItem "O"
+    MENUITEM "Cancel" LinkCancelMItem "A"
+  END
+
+  PULLDOWN "Edit"
+  BEGIN
+    MENUITEM "Undo" 10000 "U"
+    MENUITEM "Cut" 10001 "X"
+    MENUITEM "Copy" 10002 "C"
+    MENUITEM "Paste" 10003 "P"
+    MENUITEM "Select All" 10004 "S"
+    MENUITEM SEPARATOR
+    MENUITEM "Keyboard" 10006 "K"
+    MENUITEM "Graffiti Help" 10007 "G"
+  END
+END
+
+FORM ID IdentityForm AT (2 2 156 76)
+MODAL
+DEFAULTBTNID IdentCancelBtn
+HELPID IdentFormHlp
+MENUID IdentMenu
+BEGIN
+  TITLE "User Identity"
+
+  LABEL "Name:" AUTOID AT (4 16) FONT 0
+  FIELD ID IdentUsername AT (36 16 118 11)
+    FONT 0 UNDERLINED MAXCHARS 63 MULTIPLELINES
+  LABEL "Pass:" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID IdentPassword AT (36 PREVTOP 118 11)
+    FONT 0 UNDERLINED MAXCHARS 63 MULTIPLELINES
+  LABEL "Blog:" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID IdentBlogID AT (36 PREVTOP 96 11)
+    FONT 0 UNDERLINED MAXCHARS 12
+
+  BUTTON "OK" ID IdentOKBtn AT (6 PREVTOP+18 AUTO AUTO) FONT 0
+  BUTTON "Blog List" ID IdentListBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO) FONT 0
+  BUTTON "Cancel" ID IdentCancelBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO) FONT 0
+  GRAFFITISTATEINDICATOR AT (PREVRIGHT+6 PREVTOP)
+END
+
+STRING IdentFormHlp "The Name and Pass fields are the username and password for your blog.  The Blog field must be filled in with the ID number for the blog you want to post to.  The blog list button brings up a form that can be used to select from a list of server supplied blogs.  You can manually enter a blog if you want also."
+
+MENU ID IdentMenu
+BEGIN
+  PULLDOWN "Action"
+  BEGIN
+    MENUITEM "OK" IdentOKMItem "O"
+    MENUITEM "Blog List" IdentBlogMItem "B"
+    MENUITEM "Cancel" IdentCancelMItem "A"
+  END
+
+  PULLDOWN "Edit"
+  BEGIN
+    MENUITEM "Undo" 10000 "U"
+    MENUITEM "Cut" 10001 "X"
+    MENUITEM "Copy" 10002 "C"
+    MENUITEM "Paste" 10003 "P"
+    MENUITEM "Select All" 10004 "S"
+    MENUITEM SEPARATOR
+    MENUITEM "Keyboard" 10006 "K"
+    MENUITEM "Graffiti Help" 10007 "G"
+  END
+END
+
+
+FORM ID PostOptsForm AT (2 2 156 64)
+MODAL
+DEFAULTBTNID PostOptsCancelBtn
+HELPID PostOptsFormHlp
+MENUID PostOptsMenu
+BEGIN
+  TITLE "Post Options"
+
+  CHECKBOX "Clear after post" ID ClearCheck AT (4 16 AUTO AUTO)
+      FONT 0
+  CHECKBOX "Publish immediately" ID PublishCheck AT (4 PREVTOP+12 AUTO AUTO)
+      FONT 0
+
+  BUTTON "OK" ID PostOptsOKBtn AT (6 PREVTOP+18 AUTO AUTO) FONT 0
+  BUTTON "Cancel" ID PostOptsCancelBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO)
+    FONT 0
+END
+
+STRING PostOptsFormHlp "The Clear after post box controls what happens to the text in the entry area after a Post is performed.  If checked the app will clear out the box after the post has completed. The Publish immediately flag controls what the server does with the post.  If unchecked your post will not immediately display, you will have to go to the admin interface for your blog and manually publish."
+
+MENU ID PostOptsMenu
+BEGIN
+  PULLDOWN "Action"
+  BEGIN
+    MENUITEM "OK" PostOptOKMItem "O"
+    MENUITEM "Cancel" PostOptCancelMItem "A"
+  END
+END
+
+
+FORM ID PostActionForm AT (2 92 156 30)
+MODAL
+BEGIN
+  TITLE "Posting ..."
+
+  FIELD ID PostActionStatus AT (6 16 118 11) FONT 0 NONEDITABLE MAXCHARS 63
+END
+
+
+FORM ID BlogLoadForm AT (2 92 156 30)
+MODAL
+BEGIN
+  TITLE "Loading Blog List ..."
+
+  FIELD ID BlogLoadStatus AT (6 16 118 11) FONT 0 NONEDITABLE MAXCHARS 63
+END
+
+
+FORM ID ServerForm AT (2 2 156 98)
+MODAL
+DEFAULTBTNID ServerCancelBtn
+HELPID ServerFormHlp
+MENUID ServerMenu
+BEGIN
+  TITLE "Server Settings"
+
+  LABEL "Host:" AUTOID AT (4 16) FONT 0
+  FIELD ID ServerHost AT (32 PREVTOP 118 11)
+    FONT 0 UNDERLINED MAXCHARS 63 MULTIPLELINES
+
+  LABEL "Port:" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID ServerPort AT (32 PREVTOP 48 11)
+    FONT 0 UNDERLINED MAXCHARS 5
+
+  LABEL "URL:" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID ServerURL AT (32 PREVTOP 118 11)
+    FONT 0 UNDERLINED MAXCHARS 127 MULTIPLELINES
+
+  LABEL "Type:" AUTOID AT (4 PREVTOP+12) FONT 0
+  POPUPTRIGGER "Blogger.com" ID ServerType AT (30 PREVTOP AUTO AUTO)
+    LEFTANCHOR FONT 0
+  LIST "Blogger.com" "Journalspace.com" "WordPress" "MovableType"
+       "TypePad" "B2" "LiveJournal" ID 
+    ServerTypeList AT (PREVLEFT+13 PREVTOP AUTO AUTO) VISIBLEITEMS 7 NONUSABLE
+  POPUPLIST ID ServerType ServerTypeList
+
+  LABEL "Timeout (sec):" AUTOID AT (4 PREVTOP+12) FONT 0
+  FIELD ID ServerTimeout AT (70 PREVTOP 48 11)
+    FONT 0 UNDERLINED MAXCHARS 5
+
+  BUTTON "OK" ID ServerOKBtn AT (6 PREVTOP+18 AUTO AUTO) FONT 0
+  BUTTON "Default" ID ServerDefaultBtn 
+    AT (PREVRIGHT+6 PREVTOP AUTO AUTO) FONT 0
+  BUTTON "Cancel" ID ServerCancelBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO) FONT 0
+  GRAFFITISTATEINDICATOR AT (PREVRIGHT+6 PREVTOP)
+END
+
+STRING ServerFormHlp "The Host, Port, and URL settings should be provided to you by the blog hosting service or blogging software that you're using.  The Type setting is used to determine which fields to present for use.  The timeout can be tuned depending on the type of connection over which you're using Vagablog.  The timeout is the number of seconds that Vagablog will wait for the server to reply to a request."
+
+MENU ID ServerMenu
+BEGIN
+  PULLDOWN "Action"
+  BEGIN
+    MENUITEM "OK" ServerOKMItem "O"
+    MENUITEM "Cancel" ServerCancelMItem "A"
+  END
+
+  PULLDOWN "Edit"
+  BEGIN
+    MENUITEM "Undo" 10000 "U"
+    MENUITEM "Cut" 10001 "X"
+    MENUITEM "Copy" 10002 "C"
+    MENUITEM "Paste" 10003 "P"
+    MENUITEM "Select All" 10004 "S"
+    MENUITEM SEPARATOR
+    MENUITEM "Keyboard" 10006 "K"
+    MENUITEM "Graffiti Help" 10007 "G"
+  END
+END
+
+
+MENU ID MainMenu
+BEGIN
+  PULLDOWN "Markup"
+  BEGIN
+    MENUITEM "Bold" BoldMItem "B"
+    MENUITEM "End Bold" EndBoldMItem "D"
+    MENUITEM "Underline" UnderlineMItem "_"
+    MENUITEM "End Underline" EndUnderlineMItem "N"
+    MENUITEM "Emphasis" EmphasisMItem "M"
+    MENUITEM "End Emphasis" EndEmphasisMItem "H"
+    MENUITEM "Italic" ItalicMItem "/"
+    MENUITEM "End Italic" EndItalicMItem "T"
+    MENUITEM "Link" LinkMItem "L"
+  END
+
+  PULLDOWN "Edit"
+  BEGIN
+    MENUITEM "Undo" 10000 "U"
+    MENUITEM "Cut" 10001 "X"
+    MENUITEM "Copy" 10002 "C"
+    MENUITEM "Paste" 10003 "P"
+    MENUITEM "Select All" 10004 "S"
+    MENUITEM SEPARATOR
+    MENUITEM "Keyboard" 10006 "K"
+    MENUITEM "Graffiti Help" 10007 "G"
+  END
+
+  PULLDOWN "Options"
+  BEGIN
+    MENUITEM "Identity" IdentityMItem "I"
+    MENUITEM "Server" ServerMItem "E"
+    MENUITEM "Post Options" PostOptsMItem "O"
+    MENUITEM SEPARATOR
+    MENUITEM "About" AboutMItem "A"
+  END
+END
+
+
+ALERT ID PostErrAlert
+ERROR
+BEGIN
+    TITLE "Post Error"
+    MESSAGE "^1"
+    BUTTONS "OK"
+END
+
+
+ALERT ID PostSuccessAlert
+INFORMATION
+BEGIN
+    TITLE "Post Success"
+    MESSAGE "Post complete."
+    BUTTONS "OK"
+END
+
+
+ALERT ID PostExpiredEvalAlert
+ERROR
+BEGIN
+    TITLE "Evaluation expired"
+    MESSAGE "You can not post with this copy of Vagablog unless you register, the evaluation period has expired.  Please visit www.palmgear.com/?51902 to register."
+    BUTTONS "OK"
+END
+
+
+ALERT ID UnregPostSuccessAlert
+INFORMATION
+BEGIN
+    TITLE "Post Success"
+    MESSAGE "Post complete.  You have ^1 posts remaining before deactivation.  Please visit www.palmgear.com/?51902 to register Vagablog."
+    BUTTONS "OK"
+END
+
+
+FORM ID BlogListForm AT (2 2 156 156)
+MODAL
+DEFAULTBTNID BlogListCancelBtn
+HELPID BlogListHlp
+MENUID BlogListMenu
+BEGIN
+    TITLE "Blog List"
+
+    LIST ""ID BlogList AT (8 15 140 121) VISIBLEITEMS 11
+
+    BUTTON "OK" ID BlogListOKBtn AT (6 140 AUTO AUTO) LEFTANCHOR FONT 0
+    BUTTON "Refresh" ID BlogListRefreshBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO)
+        LEFTANCHOR FONT 0
+    BUTTON "Cancel" ID BlogListCancelBtn AT (PREVRIGHT+6 PREVTOP AUTO AUTO)
+        LEFTANCHOR FONT 0
+END
+
+STRING BlogListHlp "The server can supply a list of blogs available to a user.  Once you have username and password filled in on the Identity form you can use the Refresh button here to download the list of blogs from the server.  You don't have to connect every time you use this form, only if you have a new blog or want to change your identity and download a new list."
+
+MENU ID BlogListMenu
+BEGIN
+  PULLDOWN "Action"
+  BEGIN
+    MENUITEM "OK" ListOKMItem "O"
+    MENUITEM "Refresh" ListRefreshMItem "R"
+    MENUITEM "Cancel" ListCancelMItem "A"
+  END
+
+  PULLDOWN "Edit"
+  BEGIN
+    MENUITEM "Undo" 10000 "U"
+    MENUITEM "Cut" 10001 "X"
+    MENUITEM "Copy" 10002 "C"
+    MENUITEM "Paste" 10003 "P"
+    MENUITEM "Select All" 10004 "S"
+    MENUITEM SEPARATOR
+    MENUITEM "Keyboard" 10006 "K"
+    MENUITEM "Graffiti Help" 10007 "G"
+  END
+END
+
+
+ALERT ID BlogLoadErrAlert
+ERROR
+BEGIN
+    TITLE "List Load Error"
+    MESSAGE "^1"
+    BUTTONS "OK"
+END
+
+
+// FORMBITMAP AT (12 23) BITMAP 1703 
+FORM ID AboutForm AT (2 2 156 156)
+MODAL
+DEFAULTBTNID AboutOKBtn
+BEGIN
+    TITLE "About Vagablog"
+
+    LABEL "Vagablog" AUTOID AT (6 18) FONT 7
+    LABEL "v. 2.0 (Jun 08, 2005)" AUTOID AT (57 21) USABLE FONT 0
+    LABEL "Vagablog is a blog posting tool" AUTOID AT (6 34) USABLE FONT 0
+    LABEL "developed by Mike Rowehl" AUTOID AT (6 45) USABLE FONT 0
+    LABEL "(http://www.thisismobility.com)" AUTOID AT (6 56) USABLE FONT 0
+    LABEL "See www.thisismobility.com/vagablog" AUTOID AT (6 67) USABLE FONT 0
+    LABEL "for more information." AUTOID AT (6 78) USABLE FONT 0
+    LABEL "" AUTOID AT (6 89) USABLE FONT 0
+    LABEL "" AUTOID AT (6 100) USABLE FONT 0
+    LABEL "" AUTOID AT (6 111) USABLE FONT 0
+    LABEL "" AUTOID AT (6 122) USABLE FONT 0
+
+    BUTTON "OK" ID AboutOKBtn AT (60 140 40 12) LEFTANCHOR FONT 0
+END
+

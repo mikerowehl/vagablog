@@ -1,0 +1,3 @@
+// arch-tag: vagablog definition file
+
+application { "Vagablog" VBlg }
